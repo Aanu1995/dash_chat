@@ -73,7 +73,7 @@ class ChatInputToolbar extends StatelessWidget {
                     contentPadding: EdgeInsets.only(
                         left: 10.0, top: 2.0, bottom: 2.0, right: 10.0),
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12.0),
+                      borderRadius: BorderRadius.circular(20.0),
                     ),
                     hintText: "Type a message",
                   ),

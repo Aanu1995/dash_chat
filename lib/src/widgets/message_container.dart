@@ -55,7 +55,7 @@ class MessageContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return ConstrainedBox(
       constraints: BoxConstraints(
-        maxWidth: MediaQuery.of(context).size.width * 0.8,
+        maxWidth: MediaQuery.of(context).size.width * 0.6,
       ),
       child: Card(
         color: isUser ? Color.fromRGBO(225, 255, 199, 1.0) : Colors.white,
@@ -84,8 +84,7 @@ class MessageContainer extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
                     child: FadeInImage.memoryNetwork(
-                      height: MediaQuery.of(context).size.height * 0.3,
-                      width: MediaQuery.of(context).size.width * 0.7,
+                      height: MediaQuery.of(context).size.height * 0.25,
                       fit: BoxFit.contain,
                       placeholder: kTransparentImage,
                       image: message.image,

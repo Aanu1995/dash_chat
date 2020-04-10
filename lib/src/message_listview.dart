@@ -191,19 +191,11 @@ class _MessageListViewState extends State<MessageListView> {
                                       : MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: <Widget>[
-                                Padding(
-                                  padding: EdgeInsets.symmetric(
-                                    horizontal:
-                                        MediaQuery.of(context).size.width *
-                                            0.02,
-                                  ),
-                                  child: SizedBox(
-                                    width: widget.messages[i].user.uid ==
-                                            widget.user.uid
-                                        ? MediaQuery.of(context).size.width *
-                                            0.08
-                                        : 0.0,
-                                  ),
+                                SizedBox(
+                                  width: widget.messages[i].user.uid ==
+                                          widget.user.uid
+                                      ? MediaQuery.of(context).size.width * 0.08
+                                      : 0.0,
                                 ),
                                 GestureDetector(
                                   onLongPress: () {
@@ -256,19 +248,11 @@ class _MessageListViewState extends State<MessageListView> {
                                           parsePatterns: widget.parsePatterns,
                                         ),
                                 ),
-                                Padding(
-                                  padding: EdgeInsets.symmetric(
-                                    horizontal:
-                                        MediaQuery.of(context).size.width *
-                                            0.02,
-                                  ),
-                                  child: SizedBox(
-                                    width: widget.messages[i].user.uid !=
-                                            widget.user.uid
-                                        ? MediaQuery.of(context).size.width *
-                                            0.08
-                                        : 0.0,
-                                  ),
+                                SizedBox(
+                                  width: widget.messages[i].user.uid !=
+                                          widget.user.uid
+                                      ? MediaQuery.of(context).size.width * 0.08
+                                      : 0.0,
                                 )
                               ],
                             ),

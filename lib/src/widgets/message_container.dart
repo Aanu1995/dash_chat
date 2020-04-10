@@ -55,7 +55,7 @@ class MessageContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return ConstrainedBox(
       constraints: BoxConstraints(
-        maxWidth: MediaQuery.of(context).size.width * 0.6,
+        maxWidth: MediaQuery.of(context).size.width * 0.7,
       ),
       child: Card(
         color: isUser ? Color.fromRGBO(225, 255, 199, 1.0) : Colors.white,

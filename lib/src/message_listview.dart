@@ -194,7 +194,7 @@ class _MessageListViewState extends State<MessageListView> {
                                 SizedBox(
                                   width: widget.messages[i].user.uid ==
                                           widget.user.uid
-                                      ? MediaQuery.of(context).size.width * 0.08
+                                      ? MediaQuery.of(context).size.width * 0.05
                                       : 0.0,
                                 ),
                                 GestureDetector(
@@ -251,7 +251,7 @@ class _MessageListViewState extends State<MessageListView> {
                                 SizedBox(
                                   width: widget.messages[i].user.uid !=
                                           widget.user.uid
-                                      ? MediaQuery.of(context).size.width * 0.08
+                                      ? MediaQuery.of(context).size.width * 0.05
                                       : 0.0,
                                 )
                               ],

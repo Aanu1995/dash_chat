@@ -74,6 +74,7 @@ class MessageContainer extends StatelessWidget {
                 text: message.text,
                 style: TextStyle(
                   fontSize: 15.5,
+                  color: Colors.black87,
                 ),
               ),
               if (message.image != null)

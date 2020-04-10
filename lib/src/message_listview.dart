@@ -198,7 +198,7 @@ class _MessageListViewState extends State<MessageListView> {
                                             0.02,
                                   ),
                                   child: SizedBox(
-                                    width: widget.messages[i].user.uid !=
+                                    width: widget.messages[i].user.uid ==
                                             widget.user.uid
                                         ? MediaQuery.of(context).size.width *
                                             0.08
@@ -263,7 +263,7 @@ class _MessageListViewState extends State<MessageListView> {
                                             0.02,
                                   ),
                                   child: SizedBox(
-                                    width: widget.messages[i].user.uid ==
+                                    width: widget.messages[i].user.uid !=
                                             widget.user.uid
                                         ? MediaQuery.of(context).size.width *
                                             0.08

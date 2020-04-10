@@ -3,14 +3,7 @@ part of dash_chat;
 class ChatInputToolbar extends StatelessWidget {
   final TextEditingController controller;
   final TextStyle inputTextStyle;
-  final InputDecoration inputDecoration;
-  final TextCapitalization textCapitalization;
-  final BoxDecoration inputContainerStyle;
-  final List<Widget> leading;
-  final List<Widget> trailling;
-  final int inputMaxLines;
-  final int maxInputLength;
-  final bool alwaysShowSend;
+  final Widget leading;
   final ChatUser user;
   final Function(ChatMessage) onSend;
   final String text;
@@ -22,38 +15,27 @@ class ChatInputToolbar extends StatelessWidget {
   final double inputCursorWidth;
   final Color inputCursorColor;
   final ScrollController scrollController;
-  final bool showTraillingBeforeSend;
   final FocusNode focusNode;
   final EdgeInsets inputToolbarPadding;
   final EdgeInsets inputToolbarMargin;
-  final TextDirection textDirection;
 
   ChatInputToolbar({
     Key key,
-    this.textDirection = TextDirection.ltr,
     this.focusNode,
     this.scrollController,
     this.text,
     this.onTextChange,
     this.controller,
-    this.leading = const [],
-    this.trailling = const [],
-    this.inputDecoration,
-    this.textCapitalization,
+    this.leading,
     this.inputTextStyle,
-    this.inputContainerStyle,
-    this.inputMaxLines = 1,
     this.showInputCursor = true,
-    this.maxInputLength,
     this.inputCursorWidth = 2.0,
     this.inputCursorColor,
     this.onSend,
     @required this.user,
-    this.alwaysShowSend = false,
     this.messageIdGenerator,
     this.inputFooterBuilder,
     this.sendButtonBuilder,
-    this.showTraillingBeforeSend = true,
     this.inputToolbarPadding = const EdgeInsets.all(0.0),
     this.inputToolbarMargin = const EdgeInsets.all(0.0),
   }) : super(key: key);
@@ -68,89 +50,65 @@ class ChatInputToolbar extends StatelessWidget {
     );
 
     return Container(
-      padding: inputToolbarPadding,
-      margin: inputToolbarMargin,
-      decoration: inputContainerStyle != null
-          ? inputContainerStyle
-          : BoxDecoration(color: Colors.white),
       child: Column(
         children: <Widget>[
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              ...leading,
               Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: Directionality(
-                    textDirection: textDirection,
-                    child: TextField(
-                      focusNode: focusNode,
-                      onChanged: (value) {
-                        onTextChange(value);
-                      },
-                      buildCounter: (
-                        BuildContext context, {
-                        int currentLength,
-                        int maxLength,
-                        bool isFocused,
-                      }) =>
-                          null,
-                      decoration: inputDecoration != null
-                          ? inputDecoration
-                          : InputDecoration.collapsed(
-                              hintText: "",
-                              fillColor: Colors.white,
-                            ),
-                      textCapitalization: textCapitalization,
-                      controller: controller,
-                      style: inputTextStyle,
-                      maxLength: maxInputLength,
-                      minLines: 1,
-                      maxLines: inputMaxLines,
-                      showCursor: showInputCursor,
-                      cursorColor: inputCursorColor,
-                      cursorWidth: inputCursorWidth,
+                child: TextField(
+                  focusNode: focusNode,
+                  onChanged: (value) {
+                    onTextChange(value);
+                  },
+                  buildCounter: (
+                    BuildContext context, {
+                    int currentLength,
+                    int maxLength,
+                    bool isFocused,
+                  }) =>
+                      null,
+                  decoration: InputDecoration(
+                    prefixIcon: leading,
+                    contentPadding: EdgeInsets.only(
+                        left: 10.0, top: 2.0, bottom: 2.0, right: 10.0),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12.0),
                     ),
+                    hintText: "Type a message",
                   ),
+                  controller: controller,
+                  style: inputTextStyle,
+                  minLines: 1,
+                  maxLines: 6,
+                  showCursor: showInputCursor,
+                  cursorColor: inputCursorColor,
+                  cursorWidth: inputCursorWidth,
                 ),
               ),
-              if (showTraillingBeforeSend) ...trailling,
-              if (sendButtonBuilder != null)
-                sendButtonBuilder(() async {
-                  if (text.length != 0) {
-                    await onSend(message);
-
-                    controller.text = "";
-
-                    onTextChange("");
-                  }
-                })
-              else
-                IconButton(
-                  icon: Icon(Icons.send),
-                  onPressed: alwaysShowSend || text.length != 0
-                      ? () async {
-                          if (text.length != 0) {
-                            await onSend(message);
-
-                            controller.text = "";
-
-                            onTextChange("");
-
-                            Timer(Duration(milliseconds: 700), () {
-                              scrollController.animateTo(
-                                scrollController.position.maxScrollExtent,
-                                curve: Curves.easeOut,
-                                duration: const Duration(milliseconds: 300),
-                              );
-                            });
-                          }
-                        }
-                      : null,
+              SizedBox(width: 8.0),
+              InkWell(
+                child: CircleAvatar(
+                  backgroundColor: Theme.of(context).primaryColor,
+                  child: Icon(Icons.send, color: Colors.white),
                 ),
-              if (!showTraillingBeforeSend) ...trailling,
+                onTap: text.length != 0
+                    ? () async {
+                        if (text.length != 0) {
+                          await onSend(message);
+                          controller.text = "";
+                          onTextChange("");
+                          Timer(Duration(milliseconds: 700), () {
+                            scrollController.animateTo(
+                              scrollController.position.maxScrollExtent,
+                              curve: Curves.easeOut,
+                              duration: const Duration(milliseconds: 300),
+                            );
+                          });
+                        }
+                      }
+                    : null,
+              )
             ],
           ),
           if (inputFooterBuilder != null) inputFooterBuilder()

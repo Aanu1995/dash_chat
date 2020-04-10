@@ -138,11 +138,10 @@ class DashChat extends StatefulWidget {
   final BoxDecoration messageContainerDecoration;
 
   /// [List] of [Widget] to show before the [TextField].
-  final List<Widget> leading;
+  final Widget leading;
 
   /// [List] of [Widget] to show after the [TextField].will remove the
   /// send button and will have to implement that yourself.
-  final List<Widget> trailing;
 
   /// sendButtonBuilder will override the the default [IconButton].
   final Widget Function(Function) sendButtonBuilder;
@@ -251,8 +250,7 @@ class DashChat extends StatefulWidget {
     this.inputMaxLines = 1,
     this.inputContainerStyle,
     this.inputTextStyle,
-    this.leading = const <Widget>[],
-    this.trailing = const <Widget>[],
+    this.leading,
     this.messageContainerDecoration,
     this.messageContainerFlex = 1,
     this.height,
@@ -490,31 +488,22 @@ class DashChatState extends State<DashChat> {
           ChatInputToolbar(
             key: inputKey,
             inputToolbarPadding: widget.inputToolbarPadding,
-            textDirection: widget.inputTextDirection,
             inputToolbarMargin: widget.inputToolbarMargin,
-            showTraillingBeforeSend: widget.showTraillingBeforeSend,
-            inputMaxLines: widget.inputMaxLines,
             controller: textController,
-            inputDecoration: widget.inputDecoration,
-            textCapitalization: widget.textCapitalization,
             onSend: widget.onSend,
             user: widget.user,
             messageIdGenerator: widget.messageIdGenerator,
-            maxInputLength: widget.maxInputLength,
             sendButtonBuilder: widget.sendButtonBuilder,
             text: widget.text != null ? widget.text : _text,
             onTextChange: widget.onTextChange != null
                 ? widget.onTextChange
                 : onTextChange,
             leading: widget.leading,
-            trailling: widget.trailing,
-            inputContainerStyle: widget.inputContainerStyle,
             inputTextStyle: widget.inputTextStyle,
             inputFooterBuilder: widget.inputFooterBuilder,
             inputCursorColor: widget.inputCursorColor,
             inputCursorWidth: widget.inputCursorWidth,
             showInputCursor: widget.showInputCursor,
-            alwaysShowSend: widget.alwaysShowSend,
             scrollController: widget.scrollController != null
                 ? widget.scrollController
                 : scrollController,

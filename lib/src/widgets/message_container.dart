@@ -70,7 +70,6 @@ class MessageContainer extends StatelessWidget {
               if (message.user.name != null && !isUser)
                 Container(
                   margin: EdgeInsets.only(bottom: 8.0),
-                  alignment: Alignment.topLeft,
                   child: Text(
                     message.user.name,
                     style: TextStyle(

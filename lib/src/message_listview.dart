@@ -104,16 +104,16 @@ class _MessageListViewState extends State<MessageListView> {
                 } else if (widget.messages.length - 1 == i) {
                   last = true;
                 }
-
+                final dateCheck = widget.messages.length - (i + 1);
                 if (currentDate == null) {
-                  currentDate = widget.messages[i].createdAt;
+                  currentDate = widget.messages[dateCheck].createdAt;
                   showDate = true;
                 } else if (currentDate
-                        .difference(widget.messages[i].createdAt)
+                        .difference(widget.messages[dateCheck].createdAt)
                         .inDays !=
                     0) {
                   showDate = true;
-                  currentDate = widget.messages[i].createdAt;
+                  currentDate = widget.messages[dateCheck].createdAt;
                 } else {
                   showDate = false;
                 }
@@ -122,36 +122,29 @@ class _MessageListViewState extends State<MessageListView> {
                   child: Column(
                     children: <Widget>[
                       if (showDate)
-                        if (widget.dateBuilder != null)
-                          widget.dateBuilder(widget.dateBuilder != null
-                              ? widget.dateFormat
-                                  .format(widget.messages[i].createdAt)
-                              : DateFormat('yyyy-MM-dd')
-                                  .format(widget.messages[i].createdAt))
-                        else
-                          Container(
-                            decoration: BoxDecoration(
-                                color: Colors.grey,
-                                borderRadius: BorderRadius.circular(10.0)),
-                            padding: EdgeInsets.only(
-                              bottom: 5.0,
-                              top: 5.0,
-                              left: 10.0,
-                              right: 10.0,
-                            ),
-                            margin: EdgeInsets.symmetric(vertical: 10.0),
-                            child: Text(
-                              widget.dateFormat != null
-                                  ? widget.dateFormat
-                                      .format(widget.messages[i].createdAt)
-                                  : DateFormat('MMM dd')
-                                      .format(widget.messages[i].createdAt),
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 12.0,
-                              ),
+                        Container(
+                          decoration: BoxDecoration(
+                              color: Colors.grey,
+                              borderRadius: BorderRadius.circular(10.0)),
+                          padding: EdgeInsets.only(
+                            bottom: 5.0,
+                            top: 5.0,
+                            left: 10.0,
+                            right: 10.0,
+                          ),
+                          margin: EdgeInsets.symmetric(vertical: 10.0),
+                          child: Text(
+                            widget.dateFormat != null
+                                ? widget.dateFormat.format(
+                                    widget.messages[dateCheck].createdAt)
+                                : DateFormat('MMM dd').format(
+                                    widget.messages[dateCheck].createdAt),
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 12.0,
                             ),
                           ),
+                        ),
                       Padding(
                         padding: EdgeInsets.only(
                           top: first ? 10.0 : 0.0,

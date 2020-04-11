@@ -186,6 +186,7 @@ class _MessageListViewState extends State<MessageListView> {
                                 isUser: widget.messages[i].user.uid ==
                                     widget.user.uid,
                                 message: widget.messages[i],
+                                messageImageBuilder: widget.messageImageBuilder,
                                 timeFormat: widget.timeFormat,
                                 messageContainerDecoration:
                                     widget.messageContainerDecoration,

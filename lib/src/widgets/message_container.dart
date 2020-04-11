@@ -69,6 +69,8 @@ class MessageContainer extends StatelessWidget {
             children: <Widget>[
               if (message.user.name != null && !isUser)
                 Container(
+                  width: double.maxFinite,
+                  alignment: Alignment.topLeft,
                   margin: EdgeInsets.only(bottom: 8.0),
                   child: Text(
                     message.user.name,
@@ -88,7 +90,9 @@ class MessageContainer extends StatelessWidget {
                     color: Colors.black87,
                   ),
                 ),
-              if (message.image != null) messageImageBuilder(message.image),
+              if (message.image != null)
+                if (messageImageBuilder != null)
+                  messageImageBuilder(message.image),
               Padding(
                 padding: EdgeInsets.only(top: 5.0),
                 child: Text(

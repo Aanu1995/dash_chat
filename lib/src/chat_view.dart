@@ -100,20 +100,6 @@ class DashChat extends StatefulWidget {
   /// is long pressed.
   final Function(ChatMessage) onLongPressMessage;
 
-  /// messageBuilder will override the the default chat container which uses
-  /// and you will need to build complete message Widget it will not accept
-  /// and include any other builder functions.
-  final Widget Function(ChatMessage) messageBuilder;
-
-  /// messageTextBuilder will override the the default message text.
-  final Widget Function(String) messageTextBuilder;
-
-  /// messageImageBuilder will override the the default Image.
-  final Widget Function(String url) messageImageBuilder;
-
-  /// messageTimeBuilder will override the the default text.
-  final Widget Function(String url) messageTimeBuilder;
-
   /// dateBuilder will override the the default time text.
   final Widget Function(String) dateBuilder;
 
@@ -261,13 +247,9 @@ class DashChat extends StatefulWidget {
     this.maxInputLength,
     this.parsePatterns = const <MatchText>[],
     this.chatFooterBuilder,
-    this.messageBuilder,
     this.inputFooterBuilder,
     this.sendButtonBuilder,
     this.dateBuilder,
-    this.messageImageBuilder,
-    this.messageTextBuilder,
-    this.messageTimeBuilder,
     this.showTraillingBeforeSend = true,
   }) : super(key: key);
 
@@ -343,10 +325,6 @@ class DashChatState extends State<DashChat> {
               onPressAvatar: widget.onPressAvatar,
               onLongPressMessage: widget.onLongPressMessage,
               avatarBuilder: widget.avatarBuilder,
-              messageBuilder: widget.messageBuilder,
-              messageTextBuilder: widget.messageTextBuilder,
-              messageImageBuilder: widget.messageImageBuilder,
-              messageTimeBuilder: widget.messageTimeBuilder,
               dateBuilder: widget.dateBuilder,
               messageContainerDecoration: widget.messageContainerDecoration,
               parsePatterns: widget.parsePatterns,

@@ -12,10 +12,6 @@ class MessageListView extends StatefulWidget {
   final bool renderAvatarOnTop;
   final Function(ChatMessage) onLongPressMessage;
   final Widget Function(ChatUser) avatarBuilder;
-  final Widget Function(ChatMessage) messageBuilder;
-  final Widget Function(String) messageTextBuilder;
-  final Widget Function(String url) messageImageBuilder;
-  final Widget Function(String) messageTimeBuilder;
   final Widget Function(String) dateBuilder;
   final Widget Function() renderMessageFooter;
   final BoxDecoration messageContainerDecoration;
@@ -50,13 +46,9 @@ class MessageListView extends StatefulWidget {
     this.onLongPressMessage,
     this.onPressAvatar,
     this.renderAvatarOnTop,
-    this.messageBuilder,
     this.renderMessageFooter,
     this.avatarBuilder,
     this.dateBuilder,
-    this.messageImageBuilder,
-    this.messageTextBuilder,
-    this.messageTimeBuilder,
     this.changeVisible,
     this.visible,
     this.showLoadMore,
@@ -186,23 +178,15 @@ class _MessageListViewState extends State<MessageListView> {
                                           ));
                                 }
                               },
-                              child: widget.messageBuilder != null
-                                  ? widget.messageBuilder(widget.messages[i])
-                                  : MessageContainer(
-                                      isUser: widget.messages[i].user.uid ==
-                                          widget.user.uid,
-                                      message: widget.messages[i],
-                                      timeFormat: widget.timeFormat,
-                                      messageImageBuilder:
-                                          widget.messageImageBuilder,
-                                      messageTextBuilder:
-                                          widget.messageTextBuilder,
-                                      messageTimeBuilder:
-                                          widget.messageTimeBuilder,
-                                      messageContainerDecoration:
-                                          widget.messageContainerDecoration,
-                                      parsePatterns: widget.parsePatterns,
-                                    ),
+                              child: MessageContainer(
+                                isUser: widget.messages[i].user.uid ==
+                                    widget.user.uid,
+                                message: widget.messages[i],
+                                timeFormat: widget.timeFormat,
+                                messageContainerDecoration:
+                                    widget.messageContainerDecoration,
+                                parsePatterns: widget.parsePatterns,
+                              ),
                             ),
                             SizedBox(
                               width:

@@ -98,7 +98,7 @@ class _MessageListViewState extends State<MessageListView> {
   Widget build(BuildContext context) {
     DateTime currentDate;
 
-    return Flexible(
+    return Expanded(
       child: GestureDetector(
         onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
         child: Padding(
@@ -107,6 +107,7 @@ class _MessageListViewState extends State<MessageListView> {
             onNotification: scrollNotificationFunc,
             child: Stack(
               alignment: AlignmentDirectional.topCenter,
+              fit: StackFit.expand,
               children: [
                 ListView.builder(
                   controller: widget.scrollController,

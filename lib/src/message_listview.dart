@@ -112,7 +112,7 @@ class _MessageListViewState extends State<MessageListView> {
                 ListView.builder(
                   controller: widget.scrollController,
                   shrinkWrap: true,
-                  reverse: widget.inverted,
+                  reverse: true,
                   itemCount: widget.messages.length,
                   itemBuilder: (context, i) {
                     final j = i + 1;

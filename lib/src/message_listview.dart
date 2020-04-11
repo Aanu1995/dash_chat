@@ -12,6 +12,9 @@ class MessageListView extends StatefulWidget {
   final bool renderAvatarOnTop;
   final Function(ChatMessage) onLongPressMessage;
   final Widget Function(ChatUser) avatarBuilder;
+
+  final Widget Function(String url) messageImageBuilder;
+
   final Widget Function(String) dateBuilder;
   final Widget Function() renderMessageFooter;
   final BoxDecoration messageContainerDecoration;
@@ -50,6 +53,7 @@ class MessageListView extends StatefulWidget {
     this.avatarBuilder,
     this.dateBuilder,
     this.changeVisible,
+    this.messageImageBuilder,
     this.visible,
     this.showLoadMore,
   });

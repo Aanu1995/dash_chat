@@ -12,6 +12,8 @@ class MessageContainer extends StatelessWidget {
   /// the default `HH:mm:ss`
   final DateFormat timeFormat;
 
+  final Widget Function(String url) messageImageBuilder;
+
   /// Provides a custom style to the message container
   /// takes [BoxDecoration]
   final BoxDecoration messageContainerDecoration;
@@ -28,6 +30,7 @@ class MessageContainer extends StatelessWidget {
   const MessageContainer({
     @required this.message,
     @required this.timeFormat,
+    this.messageImageBuilder,
     this.messageContainerDecoration,
     this.parsePatterns = const <MatchText>[],
     this.isUser,
@@ -85,16 +88,7 @@ class MessageContainer extends StatelessWidget {
                     color: Colors.black87,
                   ),
                 ),
-              if (message.image != null)
-                Padding(
-                  padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
-                  child: FadeInImage.memoryNetwork(
-                    height: MediaQuery.of(context).size.height * 0.25,
-                    fit: BoxFit.contain,
-                    placeholder: kTransparentImage,
-                    image: message.image,
-                  ),
-                ),
+              if (message.image != null) messageImageBuilder(message.image),
               Padding(
                 padding: EdgeInsets.only(top: 5.0),
                 child: Text(

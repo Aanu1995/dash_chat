@@ -100,6 +100,9 @@ class DashChat extends StatefulWidget {
   /// is long pressed.
   final Function(ChatMessage) onLongPressMessage;
 
+  /// messageImageBuilder will override the the default Image.
+  final Widget Function(String url) messageImageBuilder;
+
   /// dateBuilder will override the the default time text.
   final Widget Function(String) dateBuilder;
 
@@ -250,6 +253,7 @@ class DashChat extends StatefulWidget {
     this.inputFooterBuilder,
     this.sendButtonBuilder,
     this.dateBuilder,
+    this.messageImageBuilder,
     this.showTraillingBeforeSend = true,
   }) : super(key: key);
 
@@ -325,6 +329,7 @@ class DashChatState extends State<DashChat> {
               onPressAvatar: widget.onPressAvatar,
               onLongPressMessage: widget.onLongPressMessage,
               avatarBuilder: widget.avatarBuilder,
+              messageImageBuilder: widget.messageImageBuilder,
               dateBuilder: widget.dateBuilder,
               messageContainerDecoration: widget.messageContainerDecoration,
               parsePatterns: widget.parsePatterns,

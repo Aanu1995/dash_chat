@@ -72,34 +72,31 @@ class _MessageListViewState extends State<MessageListView> {
   double previousPixelPostion = 0.0;
 
   bool scrollNotificationFunc(ScrollNotification scrollNotification) {
-    SchedulerBinding.instance.addPostFrameCallback((_) {
-      if (previousPixelPostion == 0.0) {
-        previousPixelPostion = scrollNotification.metrics.maxScrollExtent;
+    if (previousPixelPostion == 0.0) {
+      previousPixelPostion = scrollNotification.metrics.maxScrollExtent;
+    }
+
+    if (scrollNotification.metrics.pixels ==
+        scrollNotification.metrics.maxScrollExtent) {
+      if (widget.visible) {
+        widget.changeVisible(false);
+      }
+    } else {
+      if (previousPixelPostion < scrollNotification.metrics.pixels) {
+        if (!widget.visible) {
+          widget.changeVisible(true);
+        }
       }
 
-      if (scrollNotification.metrics.pixels ==
-          scrollNotification.metrics.maxScrollExtent) {
-        if (widget.visible) {
-          widget.changeVisible(false);
-        }
-      } else {
-        if (previousPixelPostion < scrollNotification.metrics.pixels) {
-          if (!widget.visible) {
-            widget.changeVisible(true);
-          }
-        }
+      previousPixelPostion = scrollNotification.metrics.pixels;
+    }
 
-        previousPixelPostion = scrollNotification.metrics.pixels;
-      }
-
-      return true;
-    });
+    return true;
   }
 
   @override
   Widget build(BuildContext context) {
     DateTime currentDate;
-
     return Expanded(
       child: GestureDetector(
         onTap: () => FocusScope.of(context).requestFocus(FocusNode()),

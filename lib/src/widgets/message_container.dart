@@ -55,52 +55,57 @@ class MessageContainer extends StatelessWidget {
       constraints: BoxConstraints(
         maxWidth: MediaQuery.of(context).size.width * 0.8,
       ),
-      child: Bubble(
-        padding: BubbleEdges.all(8.0),
-        nip: isUser ? BubbleNip.rightTop : BubbleNip.leftTop,
-        color: isUser ? Color.fromRGBO(225, 255, 199, 1.0) : Colors.white70,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: <Widget>[
-            if (message.user.name != null && !isUser)
-              Container(
-                margin: EdgeInsets.only(bottom: 8.0),
-                child: Text(
-                  message.user.name,
-                  style: TextStyle(
-                    fontSize: 13.0,
-                    fontWeight: FontWeight.w500,
-                    color: nameColor,
+      child: Card(
+        color: isUser ? Color.fromRGBO(225, 255, 199, 1.0) : Colors.white,
+        margin: EdgeInsets.only(top: 12),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8.0),
+        ),
+        child: Container(
+          padding: EdgeInsets.all(8.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: <Widget>[
+              if (message.user.name != null && !isUser)
+                Container(
+                  margin: EdgeInsets.only(bottom: 8.0),
+                  child: Text(
+                    message.user.name,
+                    style: TextStyle(
+                      fontSize: 13.0,
+                      fontWeight: FontWeight.w500,
+                      color: nameColor,
+                    ),
                   ),
                 ),
-              ),
-            if (message.text.isNotEmpty && message.text != null)
-              ParsedText(
-                parse: parsePatterns,
-                text: message.text,
-                style: TextStyle(
-                  fontSize: 15.5,
-                  color: Colors.black87,
+              if (message.text.isNotEmpty && message.text != null)
+                ParsedText(
+                  parse: parsePatterns,
+                  text: message.text,
+                  style: TextStyle(
+                    fontSize: 15.5,
+                    color: Colors.black87,
+                  ),
                 ),
-              ),
-            if (message.image != null)
-              if (messageImageBuilder != null)
-                messageImageBuilder(message.image),
-            Padding(
-              padding: EdgeInsets.only(top: 5.0),
-              child: Text(
-                timeFormat != null
-                    ? timeFormat.format(message.createdAt)
-                    : DateFormat('h:mm a').format(message.createdAt),
-                style: TextStyle(
-                  fontSize: 10,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.black45,
+              if (message.image != null)
+                if (messageImageBuilder != null)
+                  messageImageBuilder(message.image),
+              Padding(
+                padding: EdgeInsets.only(top: 5.0),
+                child: Text(
+                  timeFormat != null
+                      ? timeFormat.format(message.createdAt)
+                      : DateFormat('h:mm a').format(message.createdAt),
+                  style: TextStyle(
+                    fontSize: 10,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.black45,
+                  ),
                 ),
-              ),
-            )
-          ],
+              )
+            ],
+          ),
         ),
       ),
     );

@@ -67,8 +67,6 @@ class MessageListView extends StatefulWidget {
 }
 
 class _MessageListViewState extends State<MessageListView> {
-  double previousPixelPostion = 0.0;
-
   @override
   Widget build(BuildContext context) {
     DateTime currentDate;
@@ -87,33 +85,28 @@ class _MessageListViewState extends State<MessageListView> {
               reverse: true,
               itemCount: widget.messages.length,
               itemBuilder: (context, i) {
+                i = widget.messages.length - (i + 1);
                 final j = i + 1;
-                bool showAvatar = false;
+
                 bool first = false;
                 bool last = false;
                 bool showDate;
-                if (j < widget.messages.length) {
-                  showAvatar = widget.messages[j].user.uid !=
-                      widget.messages[i].user.uid;
-                } else {
-                  showAvatar = true;
-                }
 
                 if (widget.messages.length == 0) {
                   first = true;
                 } else if (widget.messages.length - 1 == i) {
                   last = true;
                 }
-                final dateCheck = widget.messages.length - (i + 1);
+
                 if (currentDate == null) {
-                  currentDate = widget.messages[dateCheck].createdAt;
+                  currentDate = widget.messages[i].createdAt;
                   showDate = true;
                 } else if (currentDate
-                        .difference(widget.messages[dateCheck].createdAt)
+                        .difference(widget.messages[i].createdAt)
                         .inDays !=
                     0) {
                   showDate = true;
-                  currentDate = widget.messages[dateCheck].createdAt;
+                  currentDate = widget.messages[i].createdAt;
                 } else {
                   showDate = false;
                 }
@@ -135,10 +128,10 @@ class _MessageListViewState extends State<MessageListView> {
                           margin: EdgeInsets.symmetric(vertical: 10.0),
                           child: Text(
                             widget.dateFormat != null
-                                ? widget.dateFormat.format(
-                                    widget.messages[dateCheck].createdAt)
-                                : DateFormat('MMM dd').format(
-                                    widget.messages[dateCheck].createdAt),
+                                ? widget.dateFormat
+                                    .format(widget.messages[i].createdAt)
+                                : DateFormat('MMM dd')
+                                    .format(widget.messages[i].createdAt),
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 12.0,

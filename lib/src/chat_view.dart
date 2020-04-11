@@ -192,10 +192,6 @@ class DashChat extends StatefulWidget {
   /// As default it will be shown before the send button.
   final bool showTraillingBeforeSend;
 
-  /// Should the scroll to bottom widget be shown
-  /// default to true.
-  final bool scrollToBottom;
-
   /// Overrides the default [scrollToBottomWidget] with a custom widget
   final Widget Function() scrollToBottomWidget;
 
@@ -232,7 +228,6 @@ class DashChat extends StatefulWidget {
     this.shouldShowLoadEarlier = false,
     this.showLoadEarlierWidget,
     this.onLoadEarlier,
-    this.scrollToBottom = true,
     this.scrollToBottomWidget,
     this.onScrollToBottomPress,
     this.onQuickReply,
@@ -302,51 +297,16 @@ class DashChatState extends State<DashChat> {
   ScrollController scrollController;
   String _text = "";
   bool visible = false;
-  OverlayEntry _overlayEntry;
+
   GlobalKey inputKey = GlobalKey();
   double height = 48.0;
   bool showLoadMore = false;
   String get messageInput => _text;
 
   void onTextChange(String text) {
-    if (visible) {
-      changeVisible(false);
-    }
     setState(() {
       this._text = text;
     });
-  }
-
-  void changeVisible(bool value) {
-    if (widget.scrollToBottom) {
-      if (value != visible) {
-        setState(() {
-          visible = value;
-        });
-      }
-
-      if (this._overlayEntry == null) {
-        // height = inputKey.currentContext.size.height;
-        this._overlayEntry = this._createOverlayEntry(height);
-
-        if (value) {
-          Timer(Duration(milliseconds: 120), () {
-            try {
-              Overlay.of(context).insert(this._overlayEntry);
-            } catch (e) {}
-          });
-        }
-      } else {
-        try {
-          if (!value) {
-            this._overlayEntry.remove();
-            this._overlayEntry = null;
-          }
-        } catch (e) {
-          this._overlayEntry = null;
-        }
-      }
-    }
   }
 
   void changeDefaultLoadMore(bool value) {
@@ -360,51 +320,7 @@ class DashChatState extends State<DashChat> {
     scrollController = widget.scrollController ?? ScrollController();
     textController = widget.textController ?? TextEditingController();
     inputFocusNode = widget.focusNode ?? FocusNode();
-    // WidgetsBinding.instance.addPostFrameCallback(widgetBuilt);
     super.initState();
-  }
-
-  OverlayEntry _createOverlayEntry(double height) {
-    return OverlayEntry(
-      builder: (context) => Positioned(
-        bottom: height + 12.0,
-        right: 10.0,
-        child: widget.scrollToBottomWidget != null
-            ? widget.scrollToBottomWidget()
-            : ScrollToBottom(
-                onScrollToBottomPress: widget.onScrollToBottomPress,
-                scrollController: scrollController,
-              ),
-      ),
-    );
-  }
-
-  void widgetBuilt(Duration d) {
-    double initPos =
-        widget.inverted ? 0.0 : scrollController.position.maxScrollExtent;
-    scrollController.jumpTo(initPos);
-
-    scrollController.addListener(() {
-      if (widget.shouldShowLoadEarlier) {
-        if (scrollController.offset <=
-                scrollController.position.minScrollExtent &&
-            !scrollController.position.outOfRange) {
-          setState(() {
-            showLoadMore = true;
-          });
-        } else {
-          setState(() {
-            showLoadMore = false;
-          });
-        }
-      } else {
-        if (scrollController.offset <=
-                scrollController.position.minScrollExtent &&
-            !scrollController.position.outOfRange) {
-          widget.onLoadEarlier();
-        }
-      }
-    });
   }
 
   @override
@@ -447,7 +363,6 @@ class DashChatState extends State<DashChat> {
               dateBuilder: widget.dateBuilder,
               messageContainerDecoration: widget.messageContainerDecoration,
               parsePatterns: widget.parsePatterns,
-              changeVisible: changeVisible,
               visible: visible,
               showLoadMore: showLoadMore,
             ),

@@ -68,16 +68,17 @@ class MessageContainer extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: <Widget>[
               if (message.user.name != null && !isUser)
-                Container(
-                  width: double.maxFinite,
+                Align(
                   alignment: Alignment.topLeft,
-                  margin: EdgeInsets.only(bottom: 8.0),
-                  child: Text(
-                    message.user.name,
-                    style: TextStyle(
-                      fontSize: 13.0,
-                      fontWeight: FontWeight.w500,
-                      color: nameColor,
+                  child: Container(
+                    margin: EdgeInsets.only(bottom: 8.0),
+                    child: Text(
+                      message.user.name,
+                      style: TextStyle(
+                        fontSize: 13.0,
+                        fontWeight: FontWeight.w500,
+                        color: nameColor,
+                      ),
                     ),
                   ),
                 ),

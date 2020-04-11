@@ -92,13 +92,25 @@ class MessageContainer extends StatelessWidget {
                   ),
               Padding(
                 padding: EdgeInsets.only(top: 5.0),
-                child: Text(
-                  timeFormat != null
-                      ? timeFormat.format(message.createdAt)
-                      : DateFormat('HH:mm:ss').format(message.createdAt),
-                  style: TextStyle(
-                    fontSize: 11.5,
-                  ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      DateFormat('MMM dd').format(message.createdAt),
+                      style: TextStyle(
+                        fontSize: 11.5,
+                      ),
+                    ),
+                    SizedBox(width: 16.0),
+                    Text(
+                      timeFormat != null
+                          ? timeFormat.format(message.createdAt)
+                          : DateFormat('HH:mm:ss').format(message.createdAt),
+                      style: TextStyle(
+                        fontSize: 11.5,
+                      ),
+                    ),
+                  ],
                 ),
               )
             ],

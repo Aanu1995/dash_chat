@@ -69,7 +69,6 @@ class MessageListView extends StatefulWidget {
 class _MessageListViewState extends State<MessageListView> {
   @override
   Widget build(BuildContext context) {
-    DateTime currentDate;
     return GestureDetector(
       onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
       child: Padding(
@@ -85,12 +84,10 @@ class _MessageListViewState extends State<MessageListView> {
               reverse: true,
               itemCount: widget.messages.length,
               itemBuilder: (context, i) {
-                i = widget.messages.length - (i + 1);
                 final j = i + 1;
 
                 bool first = false;
                 bool last = false;
-                bool showDate;
 
                 if (widget.messages.length == 0) {
                   first = true;
@@ -98,46 +95,9 @@ class _MessageListViewState extends State<MessageListView> {
                   last = true;
                 }
 
-                if (currentDate == null) {
-                  currentDate = widget.messages[i].createdAt;
-                  showDate = true;
-                } else if (currentDate
-                        .difference(widget.messages[i].createdAt)
-                        .inDays !=
-                    0) {
-                  showDate = true;
-                  currentDate = widget.messages[i].createdAt;
-                } else {
-                  showDate = false;
-                }
-
                 return Align(
                   child: Column(
                     children: <Widget>[
-                      if (showDate)
-                        Container(
-                          decoration: BoxDecoration(
-                              color: Colors.grey,
-                              borderRadius: BorderRadius.circular(10.0)),
-                          padding: EdgeInsets.only(
-                            bottom: 5.0,
-                            top: 5.0,
-                            left: 10.0,
-                            right: 10.0,
-                          ),
-                          margin: EdgeInsets.symmetric(vertical: 10.0),
-                          child: Text(
-                            widget.dateFormat != null
-                                ? widget.dateFormat
-                                    .format(widget.messages[i].createdAt)
-                                : DateFormat('MMM dd')
-                                    .format(widget.messages[i].createdAt),
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 12.0,
-                            ),
-                          ),
-                        ),
                       Padding(
                         padding: EdgeInsets.only(
                           top: first ? 10.0 : 0.0,

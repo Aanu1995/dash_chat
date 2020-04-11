@@ -119,7 +119,6 @@ class _MyHomePageState extends State<MyHomePage> {
                   items.map((i) => ChatMessage.fromJson(i.data)).toList();
               return DashChat(
                 key: _chatViewKey,
-                inverted: false,
                 onSend: onSend,
                 user: user,
                 inputDecoration:

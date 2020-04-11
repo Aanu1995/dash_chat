@@ -71,29 +71,6 @@ class MessageListView extends StatefulWidget {
 class _MessageListViewState extends State<MessageListView> {
   double previousPixelPostion = 0.0;
 
-  bool scrollNotificationFunc(ScrollNotification scrollNotification) {
-    if (previousPixelPostion == 0.0) {
-      previousPixelPostion = scrollNotification.metrics.maxScrollExtent;
-    }
-
-    if (scrollNotification.metrics.pixels ==
-        scrollNotification.metrics.maxScrollExtent) {
-      if (widget.visible) {
-        widget.changeVisible(false);
-      }
-    } else {
-      if (previousPixelPostion < scrollNotification.metrics.pixels) {
-        if (!widget.visible) {
-          widget.changeVisible(true);
-        }
-      }
-
-      previousPixelPostion = scrollNotification.metrics.pixels;
-    }
-
-    return true;
-  }
-
   @override
   Widget build(BuildContext context) {
     DateTime currentDate;
@@ -101,180 +78,176 @@ class _MessageListViewState extends State<MessageListView> {
       onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
       child: Padding(
         padding: widget.messageContainerPadding,
-        child: NotificationListener<ScrollNotification>(
-          onNotification: scrollNotificationFunc,
-          child: Stack(
-            alignment: AlignmentDirectional.topCenter,
-            fit: StackFit.expand,
-            children: [
-              ListView.builder(
-                controller: widget.scrollController,
-                padding: EdgeInsets.all(0.0),
-                shrinkWrap: true,
-                reverse: widget.inverted,
-                itemCount: widget.messages.length,
-                itemBuilder: (context, i) {
-                  final j = i + 1;
-                  bool showAvatar = false;
-                  bool first = false;
-                  bool last = false;
-                  bool showDate;
-                  if (j < widget.messages.length) {
-                    showAvatar = widget.messages[j].user.uid !=
-                        widget.messages[i].user.uid;
-                  } else {
-                    showAvatar = true;
-                  }
+        child: Stack(
+          alignment: AlignmentDirectional.topCenter,
+          fit: StackFit.expand,
+          children: [
+            ListView.builder(
+              controller: widget.scrollController,
+              padding: EdgeInsets.all(0.0),
+              shrinkWrap: true,
+              reverse: widget.inverted,
+              itemCount: widget.messages.length,
+              itemBuilder: (context, i) {
+                final j = i + 1;
+                bool showAvatar = false;
+                bool first = false;
+                bool last = false;
+                bool showDate;
+                if (j < widget.messages.length) {
+                  showAvatar = widget.messages[j].user.uid !=
+                      widget.messages[i].user.uid;
+                } else {
+                  showAvatar = true;
+                }
 
-                  if (widget.messages.length == 0) {
-                    first = true;
-                  } else if (widget.messages.length - 1 == i) {
-                    last = true;
-                  }
+                if (widget.messages.length == 0) {
+                  first = true;
+                } else if (widget.messages.length - 1 == i) {
+                  last = true;
+                }
 
-                  if (currentDate == null) {
-                    currentDate = widget.messages[i].createdAt;
-                    showDate = true;
-                  } else if (currentDate
-                          .difference(widget.messages[i].createdAt)
-                          .inDays !=
-                      0) {
-                    showDate = true;
-                    currentDate = widget.messages[i].createdAt;
-                  } else {
-                    showDate = false;
-                  }
+                if (currentDate == null) {
+                  currentDate = widget.messages[i].createdAt;
+                  showDate = true;
+                } else if (currentDate
+                        .difference(widget.messages[i].createdAt)
+                        .inDays !=
+                    0) {
+                  showDate = true;
+                  currentDate = widget.messages[i].createdAt;
+                } else {
+                  showDate = false;
+                }
 
-                  return Align(
-                    child: Column(
-                      children: <Widget>[
-                        if (showDate)
-                          if (widget.dateBuilder != null)
-                            widget.dateBuilder(widget.dateBuilder != null
-                                ? widget.dateFormat
-                                    .format(widget.messages[i].createdAt)
-                                : DateFormat('yyyy-MM-dd')
-                                    .format(widget.messages[i].createdAt))
-                          else
-                            Container(
-                              decoration: BoxDecoration(
-                                  color: Colors.grey,
-                                  borderRadius: BorderRadius.circular(10.0)),
-                              padding: EdgeInsets.only(
-                                bottom: 5.0,
-                                top: 5.0,
-                                left: 10.0,
-                                right: 10.0,
-                              ),
-                              margin: EdgeInsets.symmetric(vertical: 10.0),
-                              child: Text(
-                                widget.dateFormat != null
-                                    ? widget.dateFormat
-                                        .format(widget.messages[i].createdAt)
-                                    : DateFormat('MMM dd')
-                                        .format(widget.messages[i].createdAt),
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 12.0,
-                                ),
+                return Align(
+                  child: Column(
+                    children: <Widget>[
+                      if (showDate)
+                        if (widget.dateBuilder != null)
+                          widget.dateBuilder(widget.dateBuilder != null
+                              ? widget.dateFormat
+                                  .format(widget.messages[i].createdAt)
+                              : DateFormat('yyyy-MM-dd')
+                                  .format(widget.messages[i].createdAt))
+                        else
+                          Container(
+                            decoration: BoxDecoration(
+                                color: Colors.grey,
+                                borderRadius: BorderRadius.circular(10.0)),
+                            padding: EdgeInsets.only(
+                              bottom: 5.0,
+                              top: 5.0,
+                              left: 10.0,
+                              right: 10.0,
+                            ),
+                            margin: EdgeInsets.symmetric(vertical: 10.0),
+                            child: Text(
+                              widget.dateFormat != null
+                                  ? widget.dateFormat
+                                      .format(widget.messages[i].createdAt)
+                                  : DateFormat('MMM dd')
+                                      .format(widget.messages[i].createdAt),
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 12.0,
                               ),
                             ),
-                        Padding(
-                          padding: EdgeInsets.only(
-                            top: first ? 10.0 : 0.0,
-                            bottom: last ? 10.0 : 0.0,
                           ),
-                          child: Row(
-                            mainAxisAlignment:
-                                widget.messages[i].user.uid == widget.user.uid
-                                    ? MainAxisAlignment.end
-                                    : MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: <Widget>[
-                              SizedBox(
-                                width: widget.messages[i].user.uid ==
-                                        widget.user.uid
-                                    ? MediaQuery.of(context).size.width * 0.04
-                                    : 0.0,
-                              ),
-                              GestureDetector(
-                                onLongPress: () {
-                                  if (widget.onLongPressMessage != null) {
-                                    widget
-                                        .onLongPressMessage(widget.messages[i]);
-                                  } else {
-                                    showBottomSheet(
-                                        context: context,
-                                        builder: (context) => Container(
-                                              child: Column(
-                                                mainAxisSize: MainAxisSize.min,
-                                                children: <Widget>[
-                                                  ListTile(
-                                                    leading: Icon(
-                                                        Icons.content_copy),
-                                                    title: Text(
-                                                        "Copy to clipboard"),
-                                                    onTap: () {
-                                                      Clipboard.setData(
-                                                          ClipboardData(
-                                                              text: widget
-                                                                  .messages[i]
-                                                                  .text));
-                                                      Navigator.pop(context);
-                                                    },
-                                                  )
-                                                ],
-                                              ),
-                                            ));
-                                  }
-                                },
-                                child: widget.messageBuilder != null
-                                    ? widget.messageBuilder(widget.messages[i])
-                                    : MessageContainer(
-                                        isUser: widget.messages[i].user.uid ==
-                                            widget.user.uid,
-                                        message: widget.messages[i],
-                                        timeFormat: widget.timeFormat,
-                                        messageImageBuilder:
-                                            widget.messageImageBuilder,
-                                        messageTextBuilder:
-                                            widget.messageTextBuilder,
-                                        messageTimeBuilder:
-                                            widget.messageTimeBuilder,
-                                        messageContainerDecoration:
-                                            widget.messageContainerDecoration,
-                                        parsePatterns: widget.parsePatterns,
-                                      ),
-                              ),
-                              SizedBox(
-                                width: widget.messages[i].user.uid !=
-                                        widget.user.uid
-                                    ? MediaQuery.of(context).size.width * 0.04
-                                    : 0.0,
-                              )
-                            ],
-                          ),
+                      Padding(
+                        padding: EdgeInsets.only(
+                          top: first ? 10.0 : 0.0,
+                          bottom: last ? 10.0 : 0.0,
                         ),
-                      ],
-                    ),
-                  );
-                },
-              ),
-              Container(
-                height: 100.0,
-              ),
-              AnimatedPositioned(
-                top: widget.showLoadMore ? 8.0 : -50.0,
-                duration: Duration(milliseconds: 200),
-                child: widget.showLoadEarlierWidget != null
-                    ? widget.showLoadEarlierWidget()
-                    : LoadEarlierWidget(
-                        onLoadEarlier: widget.onLoadEarlier,
-                        defaultLoadCallback: widget.defaultLoadCallback,
+                        child: Row(
+                          mainAxisAlignment:
+                              widget.messages[i].user.uid == widget.user.uid
+                                  ? MainAxisAlignment.end
+                                  : MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: <Widget>[
+                            SizedBox(
+                              width:
+                                  widget.messages[i].user.uid == widget.user.uid
+                                      ? MediaQuery.of(context).size.width * 0.04
+                                      : 0.0,
+                            ),
+                            GestureDetector(
+                              onLongPress: () {
+                                if (widget.onLongPressMessage != null) {
+                                  widget.onLongPressMessage(widget.messages[i]);
+                                } else {
+                                  showBottomSheet(
+                                      context: context,
+                                      builder: (context) => Container(
+                                            child: Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: <Widget>[
+                                                ListTile(
+                                                  leading:
+                                                      Icon(Icons.content_copy),
+                                                  title:
+                                                      Text("Copy to clipboard"),
+                                                  onTap: () {
+                                                    Clipboard.setData(
+                                                        ClipboardData(
+                                                            text: widget
+                                                                .messages[i]
+                                                                .text));
+                                                    Navigator.pop(context);
+                                                  },
+                                                )
+                                              ],
+                                            ),
+                                          ));
+                                }
+                              },
+                              child: widget.messageBuilder != null
+                                  ? widget.messageBuilder(widget.messages[i])
+                                  : MessageContainer(
+                                      isUser: widget.messages[i].user.uid ==
+                                          widget.user.uid,
+                                      message: widget.messages[i],
+                                      timeFormat: widget.timeFormat,
+                                      messageImageBuilder:
+                                          widget.messageImageBuilder,
+                                      messageTextBuilder:
+                                          widget.messageTextBuilder,
+                                      messageTimeBuilder:
+                                          widget.messageTimeBuilder,
+                                      messageContainerDecoration:
+                                          widget.messageContainerDecoration,
+                                      parsePatterns: widget.parsePatterns,
+                                    ),
+                            ),
+                            SizedBox(
+                              width:
+                                  widget.messages[i].user.uid != widget.user.uid
+                                      ? MediaQuery.of(context).size.width * 0.04
+                                      : 0.0,
+                            )
+                          ],
+                        ),
                       ),
-              ),
-            ],
-          ),
+                    ],
+                  ),
+                );
+              },
+            ),
+            Container(
+              height: 100.0,
+            ),
+            AnimatedPositioned(
+              top: widget.showLoadMore ? 8.0 : -50.0,
+              duration: Duration(milliseconds: 200),
+              child: widget.showLoadEarlierWidget != null
+                  ? widget.showLoadEarlierWidget()
+                  : LoadEarlierWidget(
+                      onLoadEarlier: widget.onLoadEarlier,
+                      defaultLoadCallback: widget.defaultLoadCallback,
+                    ),
+            ),
+          ],
         ),
       ),
     );

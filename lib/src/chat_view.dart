@@ -192,12 +192,6 @@ class DashChat extends StatefulWidget {
   /// As default it will be shown before the send button.
   final bool showTraillingBeforeSend;
 
-  /// Overrides the default [scrollToBottomWidget] with a custom widget
-  final Widget Function() scrollToBottomWidget;
-
-  /// Override the default behaviour of the onScrollToBottom Widget
-  final Function onScrollToBottomPress;
-
   /// Should the LoadEarlier Floating widget be shown or use
   /// load as you scroll scheme whcih will call the [onLoadEarlier]
   /// function as default it is set to this scheme which is false.
@@ -228,8 +222,6 @@ class DashChat extends StatefulWidget {
     this.shouldShowLoadEarlier = false,
     this.showLoadEarlierWidget,
     this.onLoadEarlier,
-    this.scrollToBottomWidget,
-    this.onScrollToBottomPress,
     this.onQuickReply,
     this.quickReplyStyle,
     this.quickReplyTextStyle,

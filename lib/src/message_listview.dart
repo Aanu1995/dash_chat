@@ -72,26 +72,28 @@ class _MessageListViewState extends State<MessageListView> {
   double previousPixelPostion = 0.0;
 
   bool scrollNotificationFunc(ScrollNotification scrollNotification) {
-    if (previousPixelPostion == 0.0) {
-      previousPixelPostion = scrollNotification.metrics.maxScrollExtent;
-    }
-
-    if (scrollNotification.metrics.pixels ==
-        scrollNotification.metrics.maxScrollExtent) {
-      if (widget.visible) {
-        widget.changeVisible(false);
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      if (previousPixelPostion == 0.0) {
+        previousPixelPostion = scrollNotification.metrics.maxScrollExtent;
       }
-    } else {
-      if (previousPixelPostion < scrollNotification.metrics.pixels) {
-        if (!widget.visible) {
-          widget.changeVisible(true);
+
+      if (scrollNotification.metrics.pixels ==
+          scrollNotification.metrics.maxScrollExtent) {
+        if (widget.visible) {
+          widget.changeVisible(false);
         }
+      } else {
+        if (previousPixelPostion < scrollNotification.metrics.pixels) {
+          if (!widget.visible) {
+            widget.changeVisible(true);
+          }
+        }
+
+        previousPixelPostion = scrollNotification.metrics.pixels;
       }
 
-      previousPixelPostion = scrollNotification.metrics.pixels;
-    }
-
-    return true;
+      return true;
+    });
   }
 
   @override
@@ -111,6 +113,7 @@ class _MessageListViewState extends State<MessageListView> {
               children: [
                 ListView.builder(
                   controller: widget.scrollController,
+                  padding: EdgeInsets.all(0.0),
                   shrinkWrap: true,
                   reverse: widget.inverted,
                   itemCount: widget.messages.length,

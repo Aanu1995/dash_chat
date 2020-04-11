@@ -100,9 +100,6 @@ class DashChat extends StatefulWidget {
   /// is long pressed.
   final Function(ChatMessage) onLongPressMessage;
 
-  /// Should the messages be shown in reversed order.
-  final bool inverted;
-
   /// messageBuilder will override the the default chat container which uses
   /// and you will need to build complete message Widget it will not accept
   /// and include any other builder functions.
@@ -261,7 +258,6 @@ class DashChat extends StatefulWidget {
     this.avatarBuilder,
     this.showAvatarForEveryMessage = false,
     this.showUserAvatar = false,
-    this.inverted = false,
     this.maxInputLength,
     this.parsePatterns = const <MatchText>[],
     this.chatFooterBuilder,
@@ -342,7 +338,6 @@ class DashChatState extends State<DashChat> {
               showuserAvatar: widget.showUserAvatar,
               dateFormat: widget.dateFormat,
               timeFormat: widget.timeFormat,
-              inverted: widget.inverted,
               showAvatarForEverMessage: widget.showAvatarForEveryMessage,
               onLongPressAvatar: widget.onLongPressAvatar,
               onPressAvatar: widget.onPressAvatar,
@@ -394,6 +389,7 @@ class DashChatState extends State<DashChat> {
               ),
             ),
           if (widget.chatFooterBuilder != null) widget.chatFooterBuilder(),
+          SizedBox(height: 16.0),
           ChatInputToolbar(
             key: inputKey,
             inputToolbarPadding: widget.inputToolbarPadding,
@@ -413,9 +409,6 @@ class DashChatState extends State<DashChat> {
             inputCursorColor: widget.inputCursorColor,
             inputCursorWidth: widget.inputCursorWidth,
             showInputCursor: widget.showInputCursor,
-            scrollController: widget.scrollController != null
-                ? widget.scrollController
-                : scrollController,
             focusNode: inputFocusNode,
           )
         ],

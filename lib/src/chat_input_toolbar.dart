@@ -14,7 +14,6 @@ class ChatInputToolbar extends StatelessWidget {
   final bool showInputCursor;
   final double inputCursorWidth;
   final Color inputCursorColor;
-  final ScrollController scrollController;
   final FocusNode focusNode;
   final EdgeInsets inputToolbarPadding;
   final EdgeInsets inputToolbarMargin;
@@ -22,7 +21,6 @@ class ChatInputToolbar extends StatelessWidget {
   ChatInputToolbar({
     Key key,
     this.focusNode,
-    this.scrollController,
     this.text,
     this.onTextChange,
     this.controller,
@@ -98,13 +96,6 @@ class ChatInputToolbar extends StatelessWidget {
                           await onSend(message);
                           controller.text = "";
                           onTextChange("");
-                          Timer(Duration(milliseconds: 700), () {
-                            scrollController.animateTo(
-                              scrollController.position.maxScrollExtent,
-                              curve: Curves.easeOut,
-                              duration: const Duration(milliseconds: 300),
-                            );
-                          });
                         }
                       }
                     : null,

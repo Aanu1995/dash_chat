@@ -186,7 +186,7 @@ class DashChat extends StatefulWidget {
   final bool shouldShowLoadEarlier;
 
   /// Override the default behaviour of the onScrollToBottom Widget
-  final Widget Function() showLoadEarlierWidget;
+  final bool isLoadingMore;
 
   /// Override the default behaviour of the onLoadEarleir Widget
   /// or used as a callback when the listView reaches the top
@@ -206,7 +206,7 @@ class DashChat extends StatefulWidget {
     this.inputToolbarMargin = const EdgeInsets.all(0.0),
     this.inputToolbarPadding = const EdgeInsets.all(0.0),
     this.shouldShowLoadEarlier = false,
-    this.showLoadEarlierWidget,
+    this.isLoadingMore,
     this.onLoadEarlier,
     this.onQuickReply,
     this.quickReplyStyle,
@@ -337,7 +337,7 @@ class DashChatState extends State<DashChat> {
           Expanded(
             child: MessageListView(
               shouldShowLoadEarlier: widget.shouldShowLoadEarlier,
-              showLoadEarlierWidget: widget.showLoadEarlierWidget,
+              isLoadingMore: widget.isLoadingMore,
               onLoadEarlier: widget.onLoadEarlier,
               defaultLoadCallback: changeDefaultLoadMore,
               messageContainerPadding: widget.messageContainerPadding,

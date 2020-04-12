@@ -25,12 +25,12 @@ class MessageListView extends StatefulWidget {
   final bool visible;
   final bool showLoadMore;
   final bool shouldShowLoadEarlier;
-  final Widget Function() showLoadEarlierWidget;
+  final bool isLoadingMore;
   final Function onLoadEarlier;
   final Function(bool) defaultLoadCallback;
 
   MessageListView({
-    this.showLoadEarlierWidget,
+    this.isLoadingMore,
     this.shouldShowLoadEarlier,
     this.onLoadEarlier,
     this.defaultLoadCallback,
@@ -213,8 +213,14 @@ class _MessageListViewState extends State<MessageListView> {
             AnimatedPositioned(
               top: widget.showLoadMore ? 8.0 : -50.0,
               duration: Duration(milliseconds: 200),
-              child: widget.showLoadEarlierWidget != null
-                  ? widget.showLoadEarlierWidget()
+              child: widget.isLoadingMore
+                  ? SizedBox(
+                      height: 30.0,
+                      width: 30.0,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 3.0,
+                      ),
+                    )
                   : LoadEarlierWidget(
                       onLoadEarlier: widget.onLoadEarlier,
                       defaultLoadCallback: widget.defaultLoadCallback,

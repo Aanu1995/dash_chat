@@ -1,7 +1,6 @@
 library dash_chat;
 
 import 'dart:math';
-import 'package:dash_chat/src/widgets/message.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter/services.dart';

@@ -61,7 +61,9 @@ class MessageContainer extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8.0),
         ),
-        child: Container(
+        child: MessageBox(
+          color: isUser ? Color.fromRGBO(225, 255, 199, 1.0) : Colors.white,
+          isRight: isUser,
           padding: EdgeInsets.all(8.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.end,

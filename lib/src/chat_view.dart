@@ -294,7 +294,32 @@ class DashChatState extends State<DashChat> {
     scrollController = widget.scrollController ?? ScrollController();
     textController = widget.textController ?? TextEditingController();
     inputFocusNode = widget.focusNode ?? FocusNode();
+    WidgetsBinding.instance.addPostFrameCallback(widgetBuilt);
     super.initState();
+  }
+
+  void widgetBuilt(Duration d) {
+    scrollController.addListener(() {
+      if (widget.shouldShowLoadEarlier) {
+        if (scrollController.offset <=
+                scrollController.position.minScrollExtent &&
+            !scrollController.position.outOfRange) {
+          setState(() {
+            showLoadMore = true;
+          });
+        } else {
+          setState(() {
+            showLoadMore = false;
+          });
+        }
+      } else {
+        if (scrollController.offset <=
+                scrollController.position.minScrollExtent &&
+            !scrollController.position.outOfRange) {
+          widget.onLoadEarlier();
+        }
+      }
+    });
   }
 
   @override

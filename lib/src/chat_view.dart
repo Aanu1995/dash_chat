@@ -299,10 +299,11 @@ class DashChatState extends State<DashChat> {
   }
 
   void widgetBuilt(Duration d) {
+    final maxScroll = scrollController.position.maxScrollExtent;
+    final currentScroll = scrollController.offset;
     scrollController.addListener(() {
       if (widget.shouldShowLoadEarlier) {
-        if (scrollController.offset <=
-                scrollController.position.minScrollExtent &&
+        if (maxScroll - currentScroll <= 20 &&
             !scrollController.position.outOfRange) {
           setState(() {
             showLoadMore = true;
@@ -313,8 +314,7 @@ class DashChatState extends State<DashChat> {
           });
         }
       } else {
-        if (scrollController.offset <=
-                scrollController.position.minScrollExtent &&
+        if (maxScroll - currentScroll <= 20 &&
             !scrollController.position.outOfRange) {
           widget.onLoadEarlier();
         }
